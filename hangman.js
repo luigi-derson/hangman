@@ -1,39 +1,69 @@
+// Hangman class with main properties
 class Hangman {
   constructor(word, attemps) {
     this.word = word.toLowerCase().split('')
     this.attemps = attemps
     this.guessedLetters = []
-  }
-}
-
-Hangman.prototype.makeGuess = function(character) {
-
-  character = character.toLowerCase()
-  const isUnique = !this.guessedLetters.includes(character)
-  const isBadGuess = !this.word.includes(character)
-
-  if (isUnique) {
-    this.guessedLetters.push(character)
+    this.status = 'playing'
   }
 
-  if (isUnique && isBadGuess) {
-    this.attemps--
-  }
-}
+  // Makes guess function by adding character to the guesses list
+  makeGuess(character) {
+    character = character.toLowerCase()
+    const isUnique = !this.guessedLetters.includes(character)
+    const isBadGuess = !this.word.includes(character)
 
-
-Hangman.prototype.getPuzzle = function() {
-  let puzzle = ''
-
-  this.word.forEach(letter => {
-    if (this.guessedLetters.includes(letter) || letter === ' ') {
-      puzzle += letter
-    } else {
-      puzzle += ' _ '
+    if (this.status !== 'playing') {
+      return
     }
-  })
 
-  return puzzle;
+    if (isUnique) {
+      this.guessedLetters.push(character)
+    }
+
+    if (isUnique && isBadGuess) {
+      this.attemps--
+    }
+  }
+
+  // Display the puzzle
+  getPuzzle() {
+    let puzzle = ''
+
+    this.word.forEach(letter => {
+      if (this.guessedLetters.includes(letter) || letter === ' ') {
+        puzzle += letter
+      } else {
+        puzzle += ' _ '
+      }
+    })
+
+    return puzzle;
+  }
+
+  checkStatus() {
+    const isFinished = this.word.every((letter) => this.guessedLetters.includes(letter) || letter === ' ')
+
+    if (this.attemps === 0) {
+      this.status = 'failed'
+    } else if (isFinished) {
+      this.status = 'finished'
+    } else {
+      this.status = 'playing'
+    }
+  }
+
+  getStatusMessage() {
+    if (this.status === 'failed') {
+      return `Nice try, the word was "${this.word.join('')}"`
+    } else if (this.status === 'finished') {
+      return `Great work! You guessed the word.`
+    } else {
+      return `Guesses left: ${this.attemps}`
+    }
+  }
 }
 
+// Remove spaces from array
 const removeWhiteSpaces = (array) => array.filter(item => item !== ' ')
+
