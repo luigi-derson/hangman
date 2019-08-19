@@ -1,3 +1,4 @@
+// Request for Hangman game
 const getPuzzle = async (wordCount) => {
   const response = await fetch(`http://puzzle.mead.io/puzzle?wordCount=${wordCount}`)
 
@@ -10,6 +11,8 @@ const getPuzzle = async (wordCount) => {
   }
 }
 
+
+// Requests for learning purposes
 const getCountry = async (countryCode) => {
   const response = await fetch('https://restcountries.eu/rest/v2/all')
 
@@ -19,7 +22,7 @@ const getCountry = async (countryCode) => {
   } else {
     throw new Error('Unable to fetch country data')
   }
-  
+
 }
 
 const getLocation = async () => {
