@@ -1,4 +1,4 @@
-// Hangman class with main properties
+// Hangman game
 class Hangman {
   constructor(word, attemps) {
     this.word = word.toLowerCase().split('')
@@ -27,14 +27,14 @@ class Hangman {
   }
 
   // Display the puzzle
-  getPuzzle() {
+  get puzzle() {
     let puzzle = ''
 
     this.word.forEach(letter => {
       if (this.guessedLetters.includes(letter) || letter === ' ') {
         puzzle += letter
       } else {
-        puzzle += ' _ '
+        puzzle += '*'
       }
     })
 
@@ -53,7 +53,7 @@ class Hangman {
     }
   }
 
-  getStatusMessage() {
+  get statusMessage() {
     if (this.status === 'failed') {
       return `Nice try, the word was "${this.word.join('')}"`
     } else if (this.status === 'finished') {
